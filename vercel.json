@@ -1,13 +1,6 @@
 {
-  "framework": "nextjs",
   "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "functions": {
-    "app/**": {
-      "runtime": "nodejs18.x"
-    }
-  },
+  "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyBvdgkwP1r8cNeV6pSSjxfZy24VPfDTLp0",
     "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "ccp-33bcd.firebaseapp.com",
