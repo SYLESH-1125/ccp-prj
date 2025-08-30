@@ -1,0 +1,20 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "functions": {
+    "app/**": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyBvdgkwP1r8cNeV6pSSjxfZy24VPfDTLp0",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "ccp-33bcd.firebaseapp.com",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "ccp-33bcd",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "ccp-33bcd.firebasestorage.app",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "222804353630",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:222804353630:web:606179c2358126810bcacf"
+
+  }
+}

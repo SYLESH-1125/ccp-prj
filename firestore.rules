@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read/write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Issues/Reports rules
+    match /issues/{issueId} {
+      // Anyone authenticated can read issues
+      allow read: if request.auth != null;
+      
+      // Users can create issues
+      allow create: if request.auth != null 
+        && request.auth.uid == resource.data.reportedBy.uid;
+      
+      // Users can update their own issues, admins can update any
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.reportedBy.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+      
+      // Only admins can delete
+      allow delete: if request.auth != null 
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Playgrounds rules
+    match /playgrounds/{playgroundId} {
+      // Anyone authenticated can read playgrounds
+      allow read: if request.auth != null;
+      
+      // Only admins can create, update, delete playgrounds
+      allow create, update, delete: if request.auth != null 
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Notifications rules
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+      
+      // Only system/admins can create notifications
+      allow create: if request.auth != null 
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+        
+      // Users can update their own notifications (mark as read)
+      allow update: if request.auth != null 
+        && request.auth.uid == resource.data.userId;
+    }
+    
+    // Admin-only collections
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null 
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}
